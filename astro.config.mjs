@@ -10,7 +10,7 @@ export default defineConfig({
 		starlight({
 			title: 'INT4101',
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				// github: 'https://github.com/withastro/starlight',
 			},
 			sidebar: [
 				// {
