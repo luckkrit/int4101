@@ -23,6 +23,9 @@ const { Data } = Astro.props;
     .header {
         display: none;
     }
+    a[href=#_top] {
+      display: none;
+    }
 </style>
 
 <StarlightPage frontmatter={{title: slug, template: 'splash'}}>
