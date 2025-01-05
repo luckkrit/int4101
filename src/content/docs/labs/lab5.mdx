@@ -1,0 +1,357 @@
+---
+title: Lab 5 - Cryptography
+lastUpdated: 2024-12-21
+draft: true
+---
+
+import {
+  Steps,
+  Card,
+  Tabs,
+  TabItem,
+  LinkButton,
+} from "@astrojs/starlight/components";
+
+<LinkButton href={"/cosint4101/print/lab5"} icon="seti:pdf" target={"_blank"}>
+  Print
+</LinkButton>
+
+## Cipher
+### Ceasar
+
+<Card title="Example 1">
+
+```python
+def encrypt(text,s):
+result = ""
+   # transverse the plain text
+   for i in range(len(text)):
+      char = text[i]
+      # Encrypt uppercase characters in plain text
+      
+      if (char.isupper()):
+         result += chr((ord(char) + s-65) % 26 + 65)
+      # Encrypt lowercase characters in plain text
+      else:
+         result += chr((ord(char) + s - 97) % 26 + 97)
+      return result
+#check the above function
+text = "CEASER CIPHER DEMO"
+s = 4
+
+print "Plain Text : " + text
+print "Shift pattern : " + str(s)
+print "Cipher: " + encrypt(text,s)
+```
+
+</Card>
+
+### Transposition
+
+<Card title='Example 1'>
+```python
+def split_len(seq, length):
+   return [seq[i:i + length] for i in range(0, len(seq), length)]
+def encode(key, plaintext):
+   order = {
+      int(val): num for num, val in enumerate(key)
+   }
+ciphertext = ''
+
+for index in sorted(order.keys()):
+   for part in split_len(plaintext, len(key)):
+      try:ciphertext += part[order[index]]
+         except IndexError:
+            continue
+   return ciphertext
+print(encode('3214', 'HELLO'))
+```
+</Card>
+
+### XOR
+
+<Card title="Example 1">
+
+```python
+def xor_crypt_string(data, key = 'awesomepassword', encode = False, decode = False):
+   from itertools import izip, cycle
+   import base64
+   
+   if decode:
+      data = base64.decodestring(data)
+   xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in izip(data, cycle(key)))
+   
+   if encode:
+      return base64.encodestring(xored).strip()
+   return xored
+secret_data = "XOR procedure"
+
+print("The cipher text is")
+print xor_crypt_string(secret_data, encode = True)
+print("The plain text fetched")
+print xor_crypt_string(xor_crypt_string(secret_data, encode = True), decode = True)
+```
+
+</Card>
+
+### Hash
+<Card title="Example 1">
+**1. MD5**
+
+```python
+import hashlib
+
+# Create a hash object using MD5 algorithm
+hash_object = hashlib.md5()
+
+# Update the hash object with a message
+hash_object.update(b"Hello, world!")
+
+# Get the hexadecimal digest of the hash
+hex_dig = hash_object.hexdigest()
+
+print(hex_dig)
+```
+
+**2. SHA-1**
+```python
+import hashlib
+
+# Create a hash object using SHA-1 algorithm
+hash_object = hashlib.sha1()
+
+# Update the hash object with a message
+hash_object.update(b"Hello, world!")
+
+# Get the hexadecimal digest of the hash
+hex_dig = hash_object.hexdigest()
+
+print(hex_dig)
+```
+
+**3. SHA-256**
+```python
+import hashlib
+
+# Create a hash object using SHA-256 algorithm
+hash_object = hashlib.sha256()
+
+# Update the hash object with a message
+hash_object.update(b"Hello, world!")
+
+# Get the hexadecimal digest of the hash
+hex_dig = hash_object.hexdigest()
+
+print(hex_dig)
+```
+</Card>
+## Symetric & Asymetric Cryptography
+### Data Encryption Standard (DES)
+<Card title="Example 1">
+```python
+import pyDes
+
+data = "DES Algorithm Implementation"
+k = pyDes.des("DESCRYPT", pyDes.CBC, "\0\0\0\0\0\0\0\0", pad=None, padmode=pyDes.PAD_PKCS5)
+d = k.encrypt(data)
+
+print "Encrypted: %r" % d
+print "Decrypted: %r" % k.decrypt(d)
+assert k.decrypt(d) == data
+```
+</Card>
+### Public & Private
+
+<Card title="Example 1">
+```python
+from Crypto import Random
+from Crypto.PublicKey import RSA
+import base64
+
+def generate_keys():
+   # key length must be a multiple of 256 and >= 1024
+   modulus_length = 256*4
+   privatekey = RSA.generate(modulus_length, Random.new().read)
+   publickey = privatekey.publickey()
+   return privatekey, publickey
+
+def encrypt_message(a_message , publickey):
+   encrypted_msg = publickey.encrypt(a_message, 32)[0]
+   encoded_encrypted_msg = base64.b64encode(encrypted_msg)
+   return encoded_encrypted_msg
+
+def decrypt_message(encoded_encrypted_msg, privatekey):
+   decoded_encrypted_msg = base64.b64decode(encoded_encrypted_msg)
+   decoded_decrypted_msg = privatekey.decrypt(decoded_encrypted_msg)
+   return decoded_decrypted_msg
+
+a_message = "This is the illustration of RSA algorithm of asymmetric cryptography"
+privatekey , publickey = generate_keys()
+encrypted_msg = encrypt_message(a_message , publickey)
+decrypted_msg = decrypt_message(encrypted_msg, privatekey)
+
+print "%s - (%d)" % (privatekey.exportKey() , len(privatekey.exportKey()))
+print "%s - (%d)" % (publickey.exportKey() , len(publickey.exportKey()))
+print " Original content: %s - (%d)" % (a_message, len(a_message))
+print "Encrypted message: %s - (%d)" % (encrypted_msg, len(encrypted_msg))
+print "Decrypted message: %s - (%d)" % (decrypted_msg, len(decrypted_msg))
+```
+</Card>
+
+## Steganography
+
+{/* https://www.geeksforgeeks.org/image-based-steganography-using-python/ */}
+
+<Card title="Example 1">
+
+```python
+# Python program implementing Image Steganography
+
+# PIL module is used to extract
+# pixels of image and modify it
+from PIL import Image
+
+# Convert encoding data into 8-bit binary
+# form using ASCII value of characters
+def genData(data):
+
+		# list of binary codes
+		# of given data
+		newd = []
+
+		for i in data:
+			newd.append(format(ord(i), '08b'))
+		return newd
+
+# Pixels are modified according to the
+# 8-bit binary data and finally returned
+def modPix(pix, data):
+
+	datalist = genData(data)
+	lendata = len(datalist)
+	imdata = iter(pix)
+
+	for i in range(lendata):
+
+		# Extracting 3 pixels at a time
+		pix = [value for value in imdata.__next__()[:3] +
+								imdata.__next__()[:3] +
+								imdata.__next__()[:3]]
+
+		# Pixel value should be made
+		# odd for 1 and even for 0
+		for j in range(0, 8):
+			if (datalist[i][j] == '0' and pix[j]% 2 != 0):
+				pix[j] -= 1
+
+			elif (datalist[i][j] == '1' and pix[j] % 2 == 0):
+				if(pix[j] != 0):
+					pix[j] -= 1
+				else:
+					pix[j] += 1
+				# pix[j] -= 1
+
+		# Eighth pixel of every set tells
+		# whether to stop ot read further.
+		# 0 means keep reading; 1 means thec
+		# message is over.
+		if (i == lendata - 1):
+			if (pix[-1] % 2 == 0):
+				if(pix[-1] != 0):
+					pix[-1] -= 1
+				else:
+					pix[-1] += 1
+
+		else:
+			if (pix[-1] % 2 != 0):
+				pix[-1] -= 1
+
+		pix = tuple(pix)
+		yield pix[0:3]
+		yield pix[3:6]
+		yield pix[6:9]
+
+def encode_enc(newimg, data):
+	w = newimg.size[0]
+	(x, y) = (0, 0)
+
+	for pixel in modPix(newimg.getdata(), data):
+
+		# Putting modified pixels in the new image
+		newimg.putpixel((x, y), pixel)
+		if (x == w - 1):
+			x = 0
+			y += 1
+		else:
+			x += 1
+
+# Encode data into image
+def encode():
+	img = input("Enter image name(with extension) : ")
+	image = Image.open(img, 'r')
+
+	data = input("Enter data to be encoded : ")
+	if (len(data) == 0):
+		raise ValueError('Data is empty')
+
+	newimg = image.copy()
+	encode_enc(newimg, data)
+
+	new_img_name = input("Enter the name of new image(with extension) : ")
+	newimg.save(new_img_name, str(new_img_name.split(".")[1].upper()))
+
+# Decode the data in the image
+def decode():
+	img = input("Enter image name(with extension) : ")
+	image = Image.open(img, 'r')
+
+	data = ''
+	imgdata = iter(image.getdata())
+
+	while (True):
+		pixels = [value for value in imgdata.__next__()[:3] +
+								imgdata.__next__()[:3] +
+								imgdata.__next__()[:3]]
+
+		# string of binary data
+		binstr = ''
+
+		for i in pixels[:8]:
+			if (i % 2 == 0):
+				binstr += '0'
+			else:
+				binstr += '1'
+
+		data += chr(int(binstr, 2))
+		if (pixels[-1] % 2 != 0):
+			return data
+
+# Main Function
+def main():
+	a = int(input(":: Welcome to Steganography ::\n"
+						"1. Encode\n2. Decode\n"))
+	if (a == 1):
+		encode()
+
+	elif (a == 2):
+		print("Decoded Word : " + decode())
+	else:
+		raise Exception("Enter correct input")
+
+# Driver Code
+if __name__ == '__main__' :
+
+	# Calling main function
+	main()
+
+```
+
+</Card>
+
+## Decrypting Tools
+### Ares
+
+<Card title="Ares">
+https://github.com/bee-san/Ares
+</Card>
+
