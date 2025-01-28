@@ -1,2 +1,2 @@
 python -m nbconvert --to markdown ./src/notebooks/python_tutorial1.ipynb --output ../content/docs/tutorials/python/tutorial1.md
-REM python -m nbconvert --to markdown ./src/notebooks/python_tutorial2.ipynb --output ../content/docs/tutorials/python/tutorial2.md
+python -m nbconvert --to markdown ./src/notebooks/python_tutorial2.ipynb --output ../content/docs/tutorials/python/tutorial2.md
