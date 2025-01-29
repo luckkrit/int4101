@@ -118,12 +118,16 @@ print(a,b,c,d) # 2 False Third message None
 print("Message = ", c) # Message = Third message
 ```
 
+### รับค่า Input จาก Keyboard
+
 
 ```python
 # รับค่า Input จาก Keyboard
 a = input("Please type something.")
 print("You input: ",a)
 ```
+
+### การแปลงชนิดข้อมูล
 
 
 ```python
