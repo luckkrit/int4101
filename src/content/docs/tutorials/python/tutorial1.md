@@ -1,12 +1,20 @@
 ---
 title: Tutorial 1
-lastUpdated: 2025-01-27
+lastUpdated: 2025-01-29
 ---
 
 # Python3 Tutorial
 
 - Python คือภาษาคอมพิวเตอร์ เวลาเขียนคำสั่งให้ทำงาน จะต้องผ่านตัวแปลภาษา หรือ Interpreter เพื่อแปลงไปเป็น Machine Code อีกที 
-- Machine Code เป็นภาษาที่คอมพิวเตอร์เข้าใจ
+- Machine Code เป็นภาษาที่คอมพิวเตอร์เข้าใจ [รายละเอียดเพิ่มเติม](https://www.pycodemates.com/2022/01/how-python-works-is-it-really-an-interpreted-language.html)
+
+:::tip
+สนใจศึกษาการเขียนโปรแกรม Python ดูเพิ่มเติมได้จาก [ลิ้งก์นี้](https://www.w3schools.com/python/)
+:::
+
+## เครื่องมือที่ใช้ในการเขียน Python
+- Google Colab [New Notebook](https://colab.new/)
+- VSCode + พร้อมติดตั้ง Python [ดูวิธีการ](https://www.youtube.com/watch?v=-e3e97PiMzE)
 
 
 ```python
