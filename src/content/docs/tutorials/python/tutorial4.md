@@ -5,17 +5,14 @@ lastUpdated: 2025-01-29
 
 # Encryption กับ Hashing
 
-## Encryption ต่างกับ Hashing ยังไง
 
-- การ Encryption กับ Hashing จะเป็นกระบวนการที่ทำให้ข้อความถูกแปลงให้อยู่ในรูปรหัสที่ไม่สามารถอ่านเป็นภาษาคนได้
-
-### Encryption คือ?
+## Encryption คือ?
 
 ![Encryption](https://media.geeksforgeeks.org/wp-content/uploads/20210115134029/EncryptionvsEncodingvsHashing1-660x280.jpg)
 
 การเข้ารหัสเป็นกระบวนการแปลงข้อความที่อ่านได้ตามปกติที่เรียกว่าข้อความธรรมดาให้เป็นข้อความขยะหรือข้อความที่ไม่สามารถอ่านได้ที่เรียกว่าไซเฟอร์เท็กซ์ ไซเฟอร์เท็กซ์ที่ได้รับจากการเข้ารหัสสามารถเปลี่ยนเป็นข้อความธรรมดาได้อย่างง่ายดายโดยใช้คีย์เข้ารหัส ตัวอย่างอัลกอริธึมการเข้ารหัสบางส่วน ได้แก่ RSA, AES และ Blowfish
 
-### Hashing คือ?
+## Hashing คือ?
 
 ![Hashing](https://media.geeksforgeeks.org/wp-content/uploads/20210115190611/NewProject-660x123.jpg)
 
